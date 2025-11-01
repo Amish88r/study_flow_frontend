@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-light: #f3f4f8;
+            --sidebar-bg: #7484d2;
+            --card-bg: #a9baf0;
+            --nav-item-bg: #8c9be4;
+            --nav-item-active-bg: #4f5b93;
+            --progress-bar-bg: #e0e0e0;
+            --progress-bar-fill: #34d399;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+        
+        body[data-theme="blue"] {
+            --sidebar-bg: #4169E1; 
+            --card-bg: #4169E1; 
+            --nav-item-bg: #4682B4;
+            --nav-item-active-bg: #3b5974;
+            --progress-bar-fill: #228B22; 
+        }
+
+        body[data-theme="orange"] {
+            --bg-light: #FFC300;           
+            --sidebar-bg: #E49B0F;         
+            --card-bg: #D9534F;           
+            --nav-item-bg: #C94A46;         
+            --nav-item-active-bg: #A93E3A;  
+            --progress-bar-fill: #4285F4;   
+            --text-dark: #ffffff;          
+        }
+        .theme-btn.orange { background-color: #E49B0F; }
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            padding: 2rem 1.5rem;
+            width: 250px;
+            flex-shrink: 0;
+            color: var(--text-light);
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-light);
+            background-color: var(--nav-item-bg);
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #6a7ac5;
+        }
+
+        .sidebar ul li a.active {
+            background-color: var(--nav-item-active-bg);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: auto auto 1fr;
+            gap: 2rem;
+            box-sizing: border-box;
+            align-items: start; 
+        }
+
+        .card {
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-sizing: border-box;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .date {
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: 700;
+        }
+
+        .main-goal {
+            grid-column: 1 / -1; 
+            background-color: var(--card-bg);
+            color: var(--text-dark);
+        }
+
+        .main-goal .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-goal p {
+            margin: 0.5rem 0 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar-container {
+            background-color: var(--text-light);
+            border-radius: 999px;
+            height: 12px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background-color: var(--progress-bar-fill);
+            height: 100%;
+            border-radius: 999px;
+        }
+
+        .progress-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 20px;
+            grid-row: 2 / 4;
+            grid-column: 1 / 2;
+        }
+
+        .progress-card h2 {
+            text-align: left;
+        }
+
+        .progress-item {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .progress-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .progress-item .item-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline; /* <-- ИЗМЕНЕНО */
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .progress-item .item-info span:first-child {
+            color: var(--nav-item-active-bg);
+        }
+
+        .streak-card {
+            background-color: var(--card-bg);
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+        }
+
+        .streak-days {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: space-between;
+        }
+
+        .day-cell {
+            flex: 1;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.5);
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .day-cell.filled {
+            background-color: var(--progress-bar-fill);
+            color: var(--text-light);
+        }
+
+        .streak-card p {
+            margin: 0.5rem 0;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        .streak-card p:last-child {
+            font-weight: 800;
+        }
+
+        .calendar-card {
+            background-color: var(--card-bg);
+            grid-column: 2 / 3;
+            grid-row: 3 / 4;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .calendar-day {
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            aspect-ratio: 1 / 1;
+        }
+
+.theme-switcher {
+    margin-top: auto; /* Прижимает блок к низу */
+    padding-top: 2rem;
+}
+.theme-switcher h4 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+.theme-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.theme-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+}
+.theme-btn.purple { background-color: #7484d2; }
+.theme-btn.blue { background-color: #4169E1; }
+
+/* Прижимаем переключатель к низу панели */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+}
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- Боковая панель навигации -->
+        <nav class="sidebar">
+            <h1 class="logo">StudyFlow</h1>
+            <ul>
+                <li><a href="#" class="active">Главная</a></li>
+                <li><a href="Targets.html">Цели</a></li>
+                <li><a href="Analitics.html">Аналитика</a></li>
+                <li><a href="Calendar.html">Календарь</a></li>
+                <li><a href="Achievments.html">Достижения</a></li>
+                <li><a href="Profile.html">Профиль</a></li>
+            </ul>
+ 
+<div class="theme-switcher">
+    <h4>Сменить тему</h4>
+    <div class="theme-buttons">
+        <button data-set-theme="default" class="theme-btn purple"></button>
+        <button data-set-theme="blue" class="theme-btn blue"></button>
+        <button data-set-theme="orange" class="theme-btn orange"></button> 
+    </div>
+</div>
+        </nav>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Карточка "Цель 1" -->
+            <div class="card main-goal">
+                <div class="card-header">
+                    <h2>Цель 1</h2>
+                    <span class="date">30.10.2025</span>
+                </div>
+                <p>Перестать депать все бабки на ставках</p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 90%;"></div>
+                </div>
+            </div>
+
+            <!-- Карточка "Прогресс" -->
+            <div class="progress-card">
+                <h2>Прогресс</h2>
+                <div class="progress-item">
+                    <div class="item-info">
+                        <span>Цель 2</span>
+                        <span class="date">01.11.2025</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 75%;"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="item-info">
+                        <span>Цель 3</span>
+                        <span class="date">02.11.2025</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="item-info">
+                        <span>Цель 4</span>
+                        <span class="date">03.11.2025</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 40%;"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="item-info">
+                        <span>Цель 5</span>
+                        <span class="date">04.11.2025</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 25%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Карточка "Стрик" -->
+            <div class="card streak-card">
+                <h2>Стрик</h2>
+                <div class="streak-days">
+                    <div class="day-cell filled">ПН</div>
+                    <div class="day-cell filled">ВТ</div>
+                    <div class="day-cell filled">СР</div>
+                    <div class="day-cell filled">ЧТ</div>
+                    <div class="day-cell">ПТ</div>
+                    <div class="day-cell">СБ</div>
+                    <div class="day-cell">ВС</div>
+                </div>
+                <p>10 дней без перерыва</p>
+                <p>Продолжайте в том же духе!!</p>
+            </div>
+
+            <!-- Карточка "Календарь" -->
+            <div class="card calendar-card">
+                 <h2>Календарь</h2>
+                 <div class="calendar-grid">
+                    <div class="day-header">ПН</div>
+                    <div class="day-header">ВТ</div>
+                    <div class="day-header">СР</div>
+                    <div class="day-header">ЧТ</div>
+                    <div class="day-header">ПТ</div>
+                    <div class="day-header">СБ</div>
+                    <div class="day-header">ВС</div>
+                    
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                    <div class="calendar-day"></div>
+                 </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+    // Находим все кнопки для смены темы
+    const themeButtons = document.querySelectorAll('[data-set-theme]');
+    const storageKey = 'studyflow-theme';
+
+    // Функция для применения темы
+    const applyTheme = (theme) => {
+        if (theme === 'default') {
+            document.body.removeAttribute('data-theme');
+        } else {
+            document.body.setAttribute('data-theme', theme);
+        }
+    };
+
+    // Слушаем клики по кнопкам
+    themeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const theme = button.dataset.setTheme;
+            applyTheme(theme);
+            // Сохраняем выбор в localStorage
+            localStorage.setItem(storageKey, theme);
+        });
+    });
+
+    // При загрузке страницы проверяем, есть ли сохраненная тема
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem(storageKey);
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        }
+    });
+</script>
+</body>
+</html>

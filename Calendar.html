@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow - Календарь</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Основные стили и переменные */
+        :root {
+            --bg-light: #f3f4f8;
+            --sidebar-bg: #7484d2;
+            --card-bg: #a9baf0;
+            --nav-item-bg: #8c9be4;
+            --nav-item-active-bg: #4f5b93;
+            --selected-border: #3b82f6; /* Яркий синий для выделения */
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        body[data-theme="blue"] {
+            --sidebar-bg: #4169E1; 
+            --card-bg: #00008B; 
+            --nav-item-bg: #4682B4;
+            --nav-item-active-bg: #3b5974;
+            --progress-bar-fill: #228B22; 
+        }
+
+        body[data-theme="orange"] {
+            --bg-light: #FFC300;           
+            --sidebar-bg: #E49B0F;         
+            --card-bg: #D9534F;           
+            --nav-item-bg: #C94A46;         
+            --nav-item-active-bg: #A93E3A;  
+            --progress-bar-fill: #4285F4;   
+            --text-dark: #333333;          
+        }
+        /* Контейнер всей страницы */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Боковая панель */
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            padding: 2rem 1.5rem;
+            width: 250px;
+            flex-shrink: 0;
+            color: var(--text-light);
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-light);
+            background-color: var(--nav-item-bg);
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
+        
+        .sidebar ul li a.active {
+            background-color: var(--nav-item-active-bg);
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #6a7ac5;
+        }
+        
+        /* Основной контент */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Контейнер календаря */
+        .calendar-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px S10px rgba(0,0,0,0.05);
+        }
+        
+        /* Шапка календаря */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+         .theme-btn.orange { background-color: #E49B0F; }
+         
+        .calendar-header button {
+            background-color: var(--nav-item-bg);
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 12px;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .calendar-header button:hover {
+            background-color: #6a7ac5;
+        }
+
+        /* Сетка календаря */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1rem;
+        }
+        
+        .weekday {
+            text-align: center;
+            font-weight: 700;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .day-cell {
+            background-color: var(--bg-light);
+            border-radius: 12px;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .day-cell:not(.empty):hover {
+            background-color: #e2e8f0;
+            cursor: pointer;
+        }
+        
+        .day-cell.empty {
+            background-color: transparent;
+        }
+
+        .day-cell.selected {
+            box-shadow: 0 0 0 3px var(--selected-border);
+            color: var(--selected-border);
+        }
+
+        /* === ДОБАВЬТЕ ЭТИ СТИЛИ ВО ВСЕ ФАЙЛЫ === */
+
+.theme-switcher {
+    margin-top: auto; /* Прижимает блок к низу */
+    padding-top: 2rem;
+}
+.theme-switcher h4 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+.theme-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.theme-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+}
+.theme-btn.purple { background-color: #7484d2; }
+.theme-btn.blue { background-color: #4169E1; }
+
+/* Прижимаем переключатель к низу панели */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+}
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- Боковая панель навигации -->
+        <nav class="sidebar">
+            <h1 class="logo">StudyFlow</h1>
+            <ul>
+                <li><a href="Index.html">Главная</a></li>
+                <li><a href="Targets.html">Цели</a></li>
+                <li><a href="Analitics.html">Аналитика</a></li>
+                <li><a href="Calendar.html" class="active">Календарь</a></li>
+                <li><a href="Achievments.html">Достижения</a></li>
+                <li><a href="Profile.html">Профиль</a></li>
+            </ul>
+            <!-- Переключатель тем -->
+<div class="theme-switcher">
+   <h4>Сменить тему</h4>
+    <div class="theme-buttons">
+        <button data-set-theme="default" class="theme-btn purple"></button>
+        <button data-set-theme="blue" class="theme-btn blue"></button>
+        <button data-set-theme="orange" class="theme-btn orange"></button> 
+    </div>
+</div>
+        </nav>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button>&larr;</button>
+                    <h2>Текущий месяц</h2>
+                    <button>&rarr;</button>
+                </div>
+                <div class="calendar-grid">
+                    <!-- Дни недели -->
+                    <div class="weekday">ПН</div>
+                    <div class="weekday">ВТ</div>
+                    <div class="weekday">СР</div>
+                    <div class="weekday">ЧТ</div>
+                    <div class="weekday">ПТ</div>
+                    <div class="weekday">СБ</div>
+                    <div class="weekday">ВС</div>
+
+                    <!-- Ячейки дней -->
+                    <div class="day-cell empty"></div>
+                    <div class="day-cell empty"></div>
+                    <div class="day-cell">1</div>
+                    <div class="day-cell">2</div>
+                    <div class="day-cell">3</div>
+                    <div class="day-cell">4</div>
+                    <div class="day-cell">5</div>
+                    <div class="day-cell">6</div>
+                    <div class="day-cell">7</div>
+                    <div class="day-cell">8</div>
+                    <div class="day-cell">9</div>
+                    <div class="day-cell">10</div>
+                    <div class="day-cell">11</div>
+                    <div class="day-cell">12</div>
+                    <div class="day-cell">13</div>
+                    <div class="day-cell">14</div>
+                    <div class="day-cell">15</div>
+                    <div class="day-cell">16</div>
+                    <div class="day-cell selected">17</div>
+                    <div class="day-cell">18</div>
+                    <div class="day-cell">19</div>
+                    <div class="day-cell">20</div>
+                    <div class="day-cell">21</div>
+                    <div class="day-cell">22</div>
+                    <div class="day-cell">23</div>
+                    <div class="day-cell">24</div>
+                    <div class="day-cell">25</div>
+                    <div class="day-cell">26</div>
+                    <div class="day-cell">27</div>
+                    <div class="day-cell">28</div>
+                    <div class="day-cell">29</div>
+                    <div class="day-cell">30</div>
+                    <div class="day-cell">31</div>
+                </div>
+            </div>
+        </main>
+    </div>
+<script>
+    // Находим все кнопки для смены темы
+    const themeButtons = document.querySelectorAll('[data-set-theme]');
+    const storageKey = 'studyflow-theme';
+
+    // Функция для применения темы
+    const applyTheme = (theme) => {
+        if (theme === 'default') {
+            document.body.removeAttribute('data-theme');
+        } else {
+            document.body.setAttribute('data-theme', theme);
+        }
+    };
+
+    // Слушаем клики по кнопкам
+    themeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const theme = button.dataset.setTheme;
+            applyTheme(theme);
+            // Сохраняем выбор в localStorage
+            localStorage.setItem(storageKey, theme);
+        });
+    });
+
+    // При загрузке страницы проверяем, есть ли сохраненная тема
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem(storageKey);
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        }
+    });
+</script>
+</body>
+</html>
