@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow - Регистрация</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-light: #f3f4f8;
+            --sidebar-bg: #7484d2;
+            --card-bg: #ffffff;
+            --nav-item-bg: #8c9be4;
+            --nav-item-active-bg: #4f5b93;
+            --progress-bar-fill: #34d399;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --font-family: 'Nunito', sans-serif;
+        }
+
+        body[data-theme="blue"] {
+            --sidebar-bg: #4169E1; 
+            --card-bg: #ffffff;
+            --nav-item-bg: #4682B4;
+            --nav-item-active-bg: #3b5974;
+            --progress-bar-fill: #228B22; 
+        }         
+
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        /* Контейнер для центрирования формы */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* Карточка формы */
+        .auth-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem 2.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .auth-card h2 {
+            margin-top: 0;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--nav-item-active-bg)
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            background-color: var(--bg-light);
+            box-sizing: border-box;
+            font-family: var(--font-family);
+            font-size: 1rem;
+            border-radius: 12px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--sidebar-bg);
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.9rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--sidebar-bg);
+            color: var(--text-light);
+        }
+        
+        .secondary-action {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .secondary-action a {
+            color: var(--sidebar-bg);
+            font-weight: 700;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Создать аккаунт</h2>
+            <form onsubmit="return false;">
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Имя" required>
+    </div>
+    <div class="form-group">
+        <input type="email" id="email" placeholder="Почта" required>
+    </div>
+    <div class="form-group">
+        <input type="tel" id="phone" placeholder="Телефон" required>
+    </div>
+    <!-- Оборачиваем кнопку в ссылку, ведущую на главную страницу -->
+    <a href="index.html" style="text-decoration: none;">
+        <button type="button" class="btn btn-primary">Зарегистрироваться</button>
+    </a>
+</form>
+            <div class="secondary-action">
+                <p>Уже есть аккаунт? <a href="Login.html">Войти</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const storageKey = 'studyflow-theme';
+        const applyTheme = (theme) => {
+            if (theme === 'default' || !theme) {
+                document.body.removeAttribute('data-theme');
+            } else {
+                document.body.setAttribute('data-theme', theme);
+            }
+        };
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem(storageKey);
+            applyTheme(savedTheme);
+        });
+    </script>
+</body>
+</html>
