@@ -27,7 +27,7 @@
 ├── 🚪 login.html        # Страница входа
 │
 └── 🏠 index.html         # Главная страница (Dashboard)
-    ├── 🎯 goals.html        # Создание и отслеживание целей
+    ├── 🎯 targets.html      # Создание и отслеживание целей
     ├── 📊 analytics.html    # Аналитика продуктивности
     ├── 📅 calendar.html     # Календарь
     ├── 🏆 achievements.html # Экран достижений
