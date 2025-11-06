@@ -44,26 +44,3 @@
 *   **JavaScript (ES6)** — логика взаимодействия, переключение тем и сохранение состояния в `localStorage`.
 *   **GitHub Pages** — хостинг и автоматическое развертывание проекта.
 
----
-
-### ⏯️ Запуск проекта
-
-#### Вариант 1. GitHub Pages (Рекомендуемый)
-
-Приложение опубликовано через GitHub Pages и доступно по прямой ссылке без необходимости установки:
-
-**[https://amish88r.github.io/study_flow_frontend/](https://amish88r.github.io/study_flow_frontend/)**
-
-#### Вариант 2. Локально
-
-Если вы хотите запустить проект на своем компьютере:
-
-1.  Клонируйте репозиторий:
-    ```bash
-    git clone https://github.com/Amish88r/study_flow_frontend.git
-    ```
-2.  Перейдите в папку проекта:
-    ```bash
-    cd study_flow_frontend
-    ```
-3.  Откройте файл `index.html` (или `login.html`/`register.html`) в любом современном браузере.
