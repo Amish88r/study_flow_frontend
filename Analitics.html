@@ -38,7 +38,6 @@
         .dashboard-container {
             display: flex;
             min-height: 100vh;
-            flex-direction: column;
         }
 
         body[data-theme="blue"] {
@@ -85,7 +84,6 @@
             flex-shrink: 0;
             color: var(--text-light);
             box-sizing: border-box;
-            transition: transform 0.3s ease;
         }
 
         .logo {
@@ -255,31 +253,7 @@
             flex-direction: column;
         }
 
-        /* Адаптивность */
-        @media (max-width: 1024px) {
-            .charts-container {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .heatmap-container {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .legend {
-                flex-direction: row;
-                height: auto;
-                gap: 1rem;
-            }
-            
-            .gradient-bar {
-                width: 100%;
-                height: 20px;
-                min-height: auto;
-            }
-        }
-
+        /* Адаптивность - ТОЛЬКО для мобильных устройств */
         @media (max-width: 768px) {
             .dashboard-container {
                 flex-direction: column;
@@ -316,8 +290,32 @@
                 font-size: 1.3rem;
             }
             
+            /* На мобильных - графики в один столбец */
+            .charts-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
             .bar-chart {
                 height: 120px;
+            }
+            
+            /* На мобильных - heatmap адаптируется */
+            .heatmap-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .legend {
+                flex-direction: row;
+                height: auto;
+                gap: 1rem;
+            }
+            
+            .gradient-bar {
+                width: 100%;
+                height: 20px;
+                min-height: auto;
             }
             
             .heatmap-grid {
@@ -329,6 +327,7 @@
             }
         }
 
+        /* Дополнительная адаптивность для очень маленьких экранов */
         @media (max-width: 480px) {
             .main-content {
                 padding: 0.5rem;
@@ -379,10 +378,6 @@
             .heatmap-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
-            
-            .charts-container {
-                gap: 1rem;
-            }
         }
     </style>
 </head>
@@ -413,6 +408,7 @@
                 <div class="theme-buttons">
                     <button data-set-theme="default" class="theme-btn purple"></button>
                     <button data-set-theme="blue" class="theme-btn blue"></button>
+                    <button data-set-theme="orange" class="theme-btn orange"></button> 
                 </div>
             </div>
         </nav>
