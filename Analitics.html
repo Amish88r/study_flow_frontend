@@ -10,80 +10,399 @@
     
     <style>
         :root {
-            --bg-light: #f3f4f8; --sidebar-bg: #7484d2; --card-bg: #a9baf0; --nav-item-bg: #8c9be4; --nav-item-active-bg: #4f5b93; --progress-bar-fill: #34d399; --text-light: #ffffff; --text-dark: #333333; --font-family: 'Nunito', sans-serif; --color-heatmap-1: #c6f6d5; --color-heatmap-2: #68d391; --color-heatmap-3: #38a169; --color-heatmap-4: #2f855a;
+            --bg-light: #f3f4f8;
+            --sidebar-bg: #7484d2;
+            --card-bg: #a9baf0;
+            --nav-item-bg: #8c9be4;
+            --nav-item-active-bg: #4f5b93;
+            --progress-bar-fill: #34d399;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --font-family: 'Nunito', sans-serif;
+            --color-heatmap-1: #c6f6d5;
+            --color-heatmap-2: #68d391;
+            --color-heatmap-3: #38a169;
+            --color-heatmap-4: #2f855a;
         }
-        body { margin: 0; font-family: var(--font-family); background-color: var(--bg-light); color: var(--text-dark); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-        body[data-theme="blue"] { --sidebar-bg: #4169E1; --card-bg: #00008B; --nav-item-bg: #4682B4; --nav-item-active-bg: #3b5974; --progress-bar-fill: #228B22; }
-        body[data-theme="orange"] { --bg-light: #FFC300; --sidebar-bg: #E49B0F; --card-bg: #D9534F; --nav-item-bg: #C94A46; --nav-item-active-bg: #A93E3A; --progress-bar-fill: #4285F4; --text-dark: #333333; }
+
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Контейнер всей страницы */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        body[data-theme="blue"] {
+            --sidebar-bg: #4169E1; 
+            --card-bg: #00008B; 
+            --nav-item-bg: #4682B4;
+            --nav-item-active-bg: #3b5974;
+            --progress-bar-fill: #228B22; 
+        }
+
+        body[data-theme="orange"] {
+            --bg-light: #FFC300;           
+            --sidebar-bg: #E49B0F;         
+            --card-bg: #D9534F;           
+            --nav-item-bg: #C94A46;         
+            --nav-item-active-bg: #A93E3A;  
+            --progress-bar-fill: #4285F4;   
+            --text-dark: #333333;          
+        }
+
+        /* Мобильная навигация */
+        .mobile-header {
+            display: none;
+            background-color: var(--sidebar-bg);
+            padding: 1rem;
+            color: var(--text-light);
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Боковая панель */
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            padding: 2rem 1.5rem;
+            width: 250px;
+            flex-shrink: 0;
+            color: var(--text-light);
+            box-sizing: border-box;
+            transition: transform 0.3s ease;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-light);
+            background-color: var(--nav-item-bg);
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
         
-        .dashboard-container { display: flex; min-height: 100vh; }
-        .sidebar { background-color: var(--sidebar-bg); padding: 2rem 1.5rem; width: 250px; flex-shrink: 0; color: var(--text-light); box-sizing: border-box; display: flex; flex-direction: column; }
-        .logo { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 3rem; }
-        .sidebar ul { list-style: none; padding: 0; margin: 0; }
-        .sidebar ul li a { display: block; padding: 1rem 1.5rem; margin-bottom: 1rem; border-radius: 12px; text-decoration: none; color: var(--text-light); background-color: var(--nav-item-bg); font-weight: 700; transition: background-color 0.3s ease; }
-        .sidebar ul li a.active { background-color: var(--nav-item-active-bg); }
+        .sidebar ul li a.active {
+            background-color: var(--nav-item-active-bg);
+        }
+         
         .theme-btn.orange { background-color: #E49B0F; }
-        .sidebar ul li a:hover { background-color: #6a7ac5; }
+         
+        .sidebar ul li a:hover {
+            background-color: #6a7ac5;
+        }
         
-        .main-content { flex-grow: 1; padding: 2rem; display: flex; flex-direction: column; gap: 2rem; }
-        .card { background-color: #ffffff; border-radius: 20px; padding: 1.5rem 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .card h2 { margin-top: 0; margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 800; text-align: center; }
+        /* Основной контент */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .card {
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-align: center;
+        }
 
-        .charts-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .chart-wrapper { background-color: var(--bg-light); border-radius: 15px; padding: 1rem; }
-        .chart-wrapper h3 { margin-top: 0; text-align: center; font-weight: 700; }
-        .bar-chart { display: flex; justify-content: space-around; align-items: flex-end; height: 150px; border-left: 2px solid #ccc; border-bottom: 2px solid #ccc; padding-left: 10px; }
-        .bar { width: 15%; background-color: var(--nav-item-bg); border-radius: 6px 6px 0 0; }
+        /* Стили для карточки с графиками */
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
 
-        .heatmap-container { display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; }
-        .legend { display: flex; flex-direction: column; align-items: center; justify-content: space-between; height: 100%; font-size: 0.9rem; font-weight: 700; }
-        .gradient-bar { width: 20px; height: 100%; border-radius: 10px; background: linear-gradient(to top, var(--color-heatmap-1), var(--color-heatmap-2), var(--color-heatmap-3), var(--color-heatmap-4)); }
-        .heatmap-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; }
-        .heatmap-cell { aspect-ratio: 1 / 1; border-radius: 6px; background-color: #e2e8f0; }
+        .chart-wrapper {
+            background-color: var(--bg-light);
+            border-radius: 15px;
+            padding: 1rem;
+        }
 
-        .theme-switcher { margin-top: auto; padding-top: 2rem; }
-        .theme-switcher h4 { text-align: center; margin-bottom: 0.5rem; }
-        .theme-buttons { display: flex; justify-content: center; gap: 1rem; }
-        .theme-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; cursor: pointer; }
+        .chart-wrapper h3 {
+            margin-top: 0;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        .bar-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 150px;
+            border-left: 2px solid #ccc;
+            border-bottom: 2px solid #ccc;
+            padding-left: 10px;
+        }
+
+        .bar {
+            width: 15%;
+            background-color: var(--nav-item-bg);
+            border-radius: 6px 6px 0 0;
+            min-height: 10px;
+        }
+
+        /* Стили для энергетической карты */
+        .heatmap-container {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .gradient-bar {
+            width: 20px;
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(to top, var(--color-heatmap-1), var(--color-heatmap-2), var(--color-heatmap-3), var(--color-heatmap-4));
+            min-height: 150px;
+        }
+
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1 / 1;
+            border-radius: 6px;
+            background-color: #e2e8f0;
+            min-width: 20px;
+        }
+
+        .theme-switcher {
+            margin-top: auto;
+            padding-top: 2rem;
+        }
+        
+        .theme-switcher h4 {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .theme-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .theme-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+        }
+        
         .theme-btn.purple { background-color: #7484d2; }
         .theme-btn.blue { background-color: #4169E1; }
-        
-        .mobile-header { display: none; background-color: var(--sidebar-bg); padding: 1rem; color: var(--text-light); justify-content: space-between; align-items: center; }
-        .mobile-menu-btn { background: none; border: none; color: var(--text-light); font-size: 1.5rem; cursor: pointer; }
 
-        /* === АДАПТИВНОСТЬ === */
-        @media (max-width: 992px) {
+        /* Прижимаем переключатель к низу панели */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
             .charts-container {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .heatmap-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .legend {
+                flex-direction: row;
+                height: auto;
+                gap: 1rem;
+            }
+            
+            .gradient-bar {
+                width: 100%;
+                height: 20px;
+                min-height: auto;
             }
         }
+
         @media (max-width: 768px) {
-            .dashboard-container { flex-direction: column; }
-            .mobile-header { display: flex; }
-            .sidebar { position: fixed; top: 0; left: -100%; height: 100vh; z-index: 1000; width: 280px; transition: left 0.3s ease; }
-            .sidebar.active { left: 0; }
-            .main-content { padding: 1rem; gap: 1rem; }
-            .card { padding: 1rem; }
-            .heatmap-container { grid-template-columns: auto 1fr; gap: 1rem; }
-            .heatmap-grid { gap: 0.25rem; }
+            .dashboard-container {
+                flex-direction: column;
+            }
+            
+            .mobile-header {
+                display: flex;
+            }
+            
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                height: 100vh;
+                z-index: 1000;
+                width: 280px;
+                transition: left 0.3s ease;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+            
+            .card {
+                padding: 1rem 1.5rem;
+            }
+            
+            .card h2 {
+                font-size: 1.3rem;
+            }
+            
+            .bar-chart {
+                height: 120px;
+            }
+            
+            .heatmap-grid {
+                gap: 0.25rem;
+            }
+            
+            .heatmap-cell {
+                min-width: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 0.5rem;
+                gap: 1rem;
+            }
+            
+            .card {
+                padding: 1rem;
+                border-radius: 15px;
+            }
+            
+            .card h2 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+            
+            .chart-wrapper {
+                padding: 0.75rem;
+            }
+            
+            .chart-wrapper h3 {
+                font-size: 1rem;
+            }
+            
+            .bar-chart {
+                height: 100px;
+                padding-left: 5px;
+            }
+            
+            .bar {
+                width: 12%;
+            }
+            
+            .heatmap-grid {
+                gap: 0.2rem;
+            }
+            
+            .heatmap-cell {
+                min-width: 12px;
+            }
+            
+            .legend {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .heatmap-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .charts-container {
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="dashboard-container">
-        <header class="mobile-header">
+        <!-- Мобильный заголовок -->
+        <div class="mobile-header">
             <button class="mobile-menu-btn">☰</button>
             <h1 class="logo" style="margin: 0; font-size: 1.5rem;">StudyFlow</h1>
             <div style="width: 40px;"></div>
-        </header>
+        </div>
 
+        <!-- Боковая панель навигации -->
         <nav class="sidebar">
             <h1 class="logo">StudyFlow</h1>
             <ul>
                 <li><a href="index.html">Главная</a></li>
                 <li><a href="Targets.html">Цели</a></li>
-                <li><a href="Analitics.html" class="active">Аналитика</a></li>
+                <li><a href="#" class="active">Аналитика</a></li>
                 <li><a href="Calendar.html">Календарь</a></li>
                 <li><a href="Achievments.html">Достижения</a></li>
                 <li><a href="Profile.html">Профиль</a></li>
@@ -94,12 +413,12 @@
                 <div class="theme-buttons">
                     <button data-set-theme="default" class="theme-btn purple"></button>
                     <button data-set-theme="blue" class="theme-btn blue"></button>
-                 <!-- <button data-set-theme="orange" class="theme-btn orange"></button>  -->
                 </div>
             </div>
         </nav>
 
         <main class="main-content">
+            <!-- Карточка "Задачи vs Энергия" -->
             <div class="card">
                 <h2>Выполненные задачи vs Энергия</h2>
                 <div class="charts-container">
@@ -126,66 +445,83 @@
                 </div>
             </div>
 
+            <!-- Карточка "Энергетическая карта" -->
             <div class="card">
                 <h2>Энергетическая карта за месяц</h2>
                 <div class="heatmap-container">
                     <div class="legend">
-                        <span>max</span>
+                        <span>max value</span>
                         <div class="gradient-bar"></div>
-                        <span>min</span>
+                        <span>min value</span>
                     </div>
                     <div class="heatmap-grid">
-                        <!-- Сюда будет генерироваться сетка -->
+                        <!-- Динамически заполняем ячейки -->
                     </div>
                 </div>
             </div>
         </main>
     </div>
-<script>
-    // Заполнение сетки heatmap
-    const grid = document.querySelector('.heatmap-grid');
-    if (grid) {
+
+    <script>
+        // Заполняем heatmap-grid
+        const grid = document.querySelector('.heatmap-grid');
         const colors = ['#e2e8f0', 'var(--color-heatmap-1)', 'var(--color-heatmap-2)', 'var(--color-heatmap-3)', 'var(--color-heatmap-4)'];
+        
         for (let i = 0; i < 35; i++) {
             const cell = document.createElement('div');
             cell.className = 'heatmap-cell';
+            // Рандомно красим ячейки для примера
             cell.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             grid.appendChild(cell);
         }
-    }
 
-    // === ОБЩИЙ СКРИПТ ДЛЯ ВСЕХ СТРАНИЦ ===
-    const themeButtons = document.querySelectorAll('[data-set-theme]');
-    const storageKey = 'studyflow-theme';
-    const applyTheme = (theme) => {
-        if (theme === 'default' || !theme) {
-            document.body.removeAttribute('data-theme');
-        } else {
-            document.body.setAttribute('data-theme', theme);
-        }
-    };
-    themeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const theme = button.dataset.setTheme;
-            applyTheme(theme);
-            localStorage.setItem(storageKey, theme);
-        });
-    });
-    document.addEventListener('DOMContentLoaded', () => {
-        const savedTheme = localStorage.getItem(storageKey);
-        if (savedTheme) applyTheme(savedTheme);
+        // Находим все кнопки для смены темы
+        const themeButtons = document.querySelectorAll('[data-set-theme]');
+        const storageKey = 'studyflow-theme';
 
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const sidebar = document.querySelector('.sidebar');
-        if (mobileMenuBtn && sidebar) {
-            mobileMenuBtn.addEventListener('click', () => sidebar.classList.toggle('active'));
-            document.addEventListener('click', (e) => {
-                if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                    sidebar.classList.remove('active');
-                }
+        // Функция для применения темы
+        const applyTheme = (theme) => {
+            if (theme === 'default') {
+                document.body.removeAttribute('data-theme');
+            } else {
+                document.body.setAttribute('data-theme', theme);
+            }
+        };
+
+        // Слушаем клики по кнопкам
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.dataset.setTheme;
+                applyTheme(theme);
+                // Сохраняем выбор в localStorage
+                localStorage.setItem(storageKey, theme);
             });
-        }
-    });
-</script>
+        });
+
+        // При загрузке страницы проверяем, есть ли сохраненная тема
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem(storageKey);
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            }
+
+            // Мобильное меню
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const sidebar = document.querySelector('.sidebar');
+            
+            if (mobileMenuBtn && sidebar) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                });
+
+                // Закрытие меню при клике вне его
+                document.addEventListener('click', (e) => {
+                    if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
