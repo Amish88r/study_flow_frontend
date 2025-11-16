@@ -1,0 +1,236 @@
+/* Основные стили */
+:root {
+    --bg-light: #f3f4f8;
+    --sidebar-bg: #7484d2;
+    --card-bg: #a9baf0;
+    --nav-item-bg: #8c9be4;
+    --nav-item-active-bg: #4f5b93;
+    --progress-bar-fill: #34d399;
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --font-family: 'Nunito', sans-serif;
+    --color-heatmap-1: #c6f6d5;
+    --color-heatmap-2: #68d391;
+    --color-heatmap-3: #38a169;
+    --color-heatmap-4: #2f855a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body[data-theme="blue"] {
+    --sidebar-bg: #4169E1;
+    --card-bg: #00008B;
+    --nav-item-bg: #4682B4;
+    --nav-item-active-bg: #3b5974;
+    --progress-bar-fill: #228B22;
+}
+
+/* Контейнер всей страницы */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    min-width: 0;
+}
+
+/* Мобильная навигация */
+.mobile-header {
+    display: none;
+    background-color: var(--sidebar-bg);
+    padding: 1rem;
+    color: var(--text-light);
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1001;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+/* Боковая панель */
+.sidebar {
+    background-color: var(--sidebar-bg);
+    padding: 2rem 1.5rem;
+    flex: 0 0 250px;
+    color: var(--text-light);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    position: relative;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.sidebar ul li a {
+    display: block;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-light);
+    background-color: var(--nav-item-bg);
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li a.active {
+    background-color: var(--nav-item-active-bg);
+}
+
+.sidebar ul li a:hover {
+    background-color: #6a7ac5;
+}
+
+.theme-switcher {
+    margin-top: auto;
+    padding-top: 2rem;
+}
+
+.theme-switcher h4 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.theme-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.theme-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.theme-btn:hover {
+    transform: scale(1.1);
+}
+
+.theme-btn.purple { background-color: #7484d2; }
+.theme-btn.blue { background-color: #4169E1; }
+
+/* Основной контент */
+.main-content {
+    flex: 1 1 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+/* Оверлей для закрытия меню */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+    .mobile-header {
+        display: flex;
+    }
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        z-index: 1000;
+        width: 280px;
+        transition: left 0.3s ease;
+    }
+    .sidebar.active {
+        left: 0;
+    }
+    .sidebar-overlay.active {
+        display: block;
+    }
+    .main-content {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+    .card {
+        padding: 1rem 1.5rem;
+    }
+    .card h2 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 0.5rem;
+        gap: 1rem;
+    }
+    .card {
+        padding: 1rem;
+        border-radius: 15px;
+    }
+    .card h2 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+}

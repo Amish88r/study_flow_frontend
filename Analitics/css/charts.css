@@ -1,0 +1,1845 @@
+/* ===== ОСНОВНЫЕ СТИЛИ ГРИДА ГРАФИКОВ ===== */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    width: 100%;
+    min-height: auto;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.chart-item {
+    background-color: var(--bg-light);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 260px;
+    height: auto;
+    border: 1px solid #e1e4e8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* ===== ЗАГОЛОВОК И ФИЛЬТРЫ ГРАФИКОВ ===== */
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-height: 2.5rem;
+}
+
+.chart-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    white-space: nowrap;
+    line-height: 1.2;
+    font-family: var(--font-family);
+}
+
+.chart-filters {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.filter-select {
+    padding: 8px 12px;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    background: linear-gradient(to bottom, #ffffff, #f6f8fa);
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 110px;
+    max-width: 140px;
+    height: 2.2rem;
+    color: #1a1a1a;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    font-family: var(--font-family);
+    letter-spacing: 0.2px;
+}
+
+.filter-select:hover {
+    border-color: #0969da;
+    background: linear-gradient(to bottom, #f6f8fa, #ffffff);
+    box-shadow: 0 2px 4px rgba(9, 105, 218, 0.1);
+    transform: translateY(-1px);
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #0969da;
+    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
+    background: linear-gradient(to bottom, #ffffff, #fafbfc);
+}
+
+/* ===== КОНТЕЙНЕРЫ ГРАФИКОВ ===== */
+.chart-container {
+    flex: 1;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.echarts-container {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.chart-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #666;
+    font-size: 14px;
+    font-family: var(--font-family);
+    font-weight: 600;
+}
+
+/* ===== УНИВЕРСАЛЬНЫЕ ТУЛТИПЫ ДЛЯ ВСЕХ ГРАФИКОВ ===== */
+.global-tooltip {
+    position: fixed !important;
+    background: white !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    z-index: 10000 !important;
+    font-size: 13px !important;
+    font-family: var(--font-family) !important;
+    font-weight: 600 !important;
+    pointer-events: none !important;
+    max-width: min(250px, calc(100vw - 40px)) !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.global-tooltip.show {
+    display: block !important;
+    opacity: 1;
+}
+
+/* Автоматическое позиционирование с проверкой границ */
+.global-tooltip.auto-position {
+    transform: translate(-50%, -100%) !important;
+    margin-top: -10px !important;
+}
+
+/* Корректировки позиций при приближении к границам */
+.global-tooltip.edge-left {
+    left: 20px !important;
+    transform: translateY(-100%) !important;
+}
+
+.global-tooltip.edge-right {
+    right: 20px !important;
+    left: auto !important;
+    transform: translateY(-100%) !important;
+}
+
+.global-tooltip.edge-top {
+    top: 20px !important;
+    transform: translateX(-50%) !important;
+}
+
+.global-tooltip.edge-bottom {
+    bottom: 20px !important;
+    top: auto !important;
+    transform: translateX(-50%) translateY(100%) !important;
+}
+
+/* ===== СТАТИСТИКА ===== */
+.stats-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.stats-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    font-family: var(--font-family);
+}
+
+.stats-filters {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: var(--bg-light);
+    border-radius: 12px;
+    border: 1px solid #e1e4e8;
+    /* УБИРАЕМ ВСЕ ИНТЕРАКТИВНЫЕ ЭФФЕКТЫ */
+    transform: none !important;
+    transition: none !important;
+    cursor: default !important;
+}
+
+/* УБИРАЕМ HOVER ЭФФЕКТЫ ДЛЯ СТАТИСТИКИ */
+.stat-item:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.stat-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #3182ce;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+    font-family: var(--font-family);
+}
+
+.stat-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: var(--font-family);
+}
+
+/* ===== ЭНЕРГЕТИЧЕСКАЯ КАРТА ===== */
+.energy-map-container {
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent;
+    padding: 10px 0;
+    overflow: hidden;
+    min-height: auto;
+    height: auto;
+}
+
+/* Заголовки дней недели */
+.energy-days-header {
+    display: grid;
+    grid-template-columns: 50px repeat(7, minmax(30px, 1fr));
+    gap: 4px;
+    margin-bottom: 8px;
+    padding: 0 8px;
+}
+
+.energy-day-header {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dark);
+    font-family: var(--font-family);
+    padding: 6px 2px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #e9ecef;
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-corner {
+    background: #f8f9fa !important;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    min-height: 20px;
+}
+
+/* Сетка карты */
+.energy-map {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.energy-week {
+    display: grid;
+    grid-template-columns: 50px repeat(7, minmax(30px, 1fr));
+    gap: 4px;
+    padding: 0 8px;
+}
+
+.energy-week-label {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dark);
+    font-family: var(--font-family);
+    padding: 6px 2px;
+    background: #f8f9fa !important;
+    border-radius: 4px;
+    border: 1px solid #e9ecef !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none !important;
+    min-height: 20px;
+}
+
+/* Ячейки дней */
+.energy-day {
+    width: 100%;
+    min-height: 35px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    border: 1px solid transparent;
+    font-family: var(--font-family);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.energy-day:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.energy-day.empty {
+    background-color: #f8f9fa;
+    color: transparent;
+    cursor: default;
+    border: 1px solid #e9ecef;
+}
+
+.energy-day.empty:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Цвета уровней энергии */
+.energy-level-0 {
+    background-color: #ebf8ff !important;
+    color: #1a365d !important;
+    border: 1px solid #e1e4e8 !important;
+    font-weight: 800 !important;
+}
+
+.energy-level-1 {
+    background-color: #bee3f8 !important;
+    color: #1a365d !important;
+    border: 1px solid #bee3f8 !important;
+    font-weight: 800 !important;
+}
+
+.energy-level-2 {
+    background-color: #63b3ed !important;
+    color: white !important;
+    border: 1px solid #63b3ed !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+
+.energy-level-3 {
+    background-color: #3182ce !important;
+    color: white !important;
+    border: 1px solid #3182ce !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+
+.energy-level-4 {
+    background-color: #2c5282 !important;
+    color: white !important;
+    border: 1px solid #2c5282 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+
+/* Текущий день */
+.energy-day.today {
+    position: relative;
+    border: 2px solid #e53e3e !important;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.energy-day.today.energy-level-0,
+.energy-day.today.energy-level-1,
+.energy-day.today.energy-level-2,
+.energy-day.today.energy-level-3,
+.energy-day.today.energy-level-4 {
+    border: 2px solid #e53e3e !important;
+}
+
+.today-indicator {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 8px;
+    height: 8px;
+    background-color: #e53e3e;
+    border-radius: 50%;
+    border: 1px solid white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    z-index: 5;
+}
+
+/* ===== ТУЛТИПЫ ЭНЕРГЕТИЧЕСКОЙ КАРТЫ ===== */
+.energy-map-tooltip {
+    position: fixed !important;
+    background: white !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    z-index: 10000 !important;
+    font-size: 13px !important;
+    font-family: var(--font-family) !important;
+    font-weight: 600 !important;
+    pointer-events: none !important;
+    max-width: min(200px, calc(100vw - 40px)) !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.energy-map-tooltip.show {
+    display: block !important;
+    opacity: 1;
+}
+
+/* Контент тултипа */
+.tooltip-header {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-family);
+}
+
+.today-badge {
+    background: #e53e3e;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 8px;
+    font-family: var(--font-family);
+}
+
+.tooltip-emoji {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.tooltip-info {
+    margin-bottom: 10px;
+    line-height: 1.4;
+    text-align: center;
+    font-family: var(--font-family);
+}
+
+.tooltip-scale {
+    margin-top: 8px;
+}
+
+.scale-bar {
+    height: 6px;
+    background: #f6f8fa;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid #e1e4e8;
+    margin-bottom: 4px;
+}
+
+.scale-fill {
+    height: 100%;
+    border-radius: 2px;
+}
+
+.scale-fill[style*="width: 20%"] { background-color: #ebf8ff; }
+.scale-fill[style*="width: 40%"] { background-color: #bee3f8; }
+.scale-fill[style*="width: 60%"] { background-color: #63b3ed; }
+.scale-fill[style*="width: 80%"] { background-color: #3182ce; }
+.scale-fill[style*="width: 100%"] { background-color: #2c5282; }
+
+.scale-labels {
+    font-size: 11px;
+    color: #666;
+    text-align: center;
+    font-weight: 700;
+    font-family: var(--font-family);
+}
+
+/* Backdrop для мобильных */
+.tooltip-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.tooltip-backdrop.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+
+/* Планшеты и маленькие ноутбуки */
+@media (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+    }
+
+    .stat-item {
+        padding: 1.2rem 0.8rem;
+    }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+    /* Грид графиков */
+    .charts-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+        padding: 0 5px;
+    }
+
+    .chart-item {
+        min-height: 300px !important;
+        margin: 0 !important;
+        padding: 1rem;
+        width: calc(100% - 10px) !important;
+        max-width: calc(100% - 10px) !important;
+    }
+
+    .chart-container {
+        min-height: 250px !important;
+        height: 250px !important;
+        width: 100% !important;
+    }
+
+    .chart-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    .chart-header h3 {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    .chart-filters {
+        justify-content: center;
+    }
+
+    .filter-select {
+        width: 100%;
+        max-width: none;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 6px 10px;
+    }
+
+    /* Статистика - ПОЛНОСТЬЮ СТАТИЧНАЯ */
+    .stats-card {
+        padding: 1.2rem 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .stats-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 0.8rem;
+    }
+
+    .stats-filters {
+        justify-content: center;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .stat-item {
+        width: 100% !important;
+        min-height: 120px !important;
+        max-width: 160px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        margin: 0 !important;
+        padding: 1rem 0.5rem !important;
+        /* УБИРАЕМ ВСЮ ИНТЕРАКТИВНОСТЬ */
+        cursor: default !important;
+        transform: none !important;
+        transition: none !important;
+        box-shadow: none !important;
+    }
+
+    .stat-value {
+        font-size: 1.8rem !important;
+        font-weight: 800 !important;
+    }
+
+    .stat-label {
+        font-size: 0.85rem !important;
+        font-weight: 700 !important;
+    }
+
+    /* Энергетическая карта */
+    .energy-map-container {
+        padding: 8px 0;
+    }
+
+    .energy-days-header {
+        grid-template-columns: 45px repeat(7, minmax(25px, 1fr));
+        gap: 3px;
+        padding: 0 6px;
+    }
+
+    .energy-week {
+        grid-template-columns: 45px repeat(7, minmax(25px, 1fr));
+        gap: 3px;
+        padding: 0 6px;
+    }
+
+    .energy-day-header {
+        font-size: 11px;
+        padding: 5px 1px;
+        min-height: 18px;
+    }
+
+    .energy-week-label {
+        font-size: 11px;
+        padding: 5px 1px;
+        min-height: 18px;
+    }
+
+    .energy-day {
+        min-height: 30px;
+        font-size: 11px;
+    }
+
+    .today-indicator {
+        width: 6px;
+        height: 6px;
+        top: -3px;
+        right: -3px;
+    }
+
+    /* Тултипы на мобильных */
+    .global-tooltip,
+    .energy-map-tooltip {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        max-width: calc(100vw - 40px) !important;
+        width: auto !important;
+        min-width: 200px !important;
+        z-index: 100000 !important;
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px) !important;
+        pointer-events: auto;
+    }
+
+    .global-tooltip.show,
+    .energy-map-tooltip.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) !important;
+    }
+
+    .tooltip-header {
+        font-size: 13px;
+    }
+
+    .tooltip-emoji {
+        font-size: 20px;
+    }
+
+    /* ЗАКРЫТИЕ ТУЛТИПОВ ПРИ СКРОЛЛЕ ДЛЯ ВСЕХ ГРАФИКОВ */
+    .global-tooltip.mobile-tooltip,
+    .energy-map-tooltip.mobile-tooltip {
+        pointer-events: auto;
+    }
+}
+
+/* Маленькие мобильные устройства */
+@media (max-width: 480px) {
+    .chart-item {
+        min-height: 280px !important;
+        padding: 0.8rem;
+        width: calc(100% - 10px) !important;
+    }
+
+    .chart-container {
+        min-height: 230px !important;
+        height: 230px !important;
+    }
+
+    .stats-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .stats-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .stat-value {
+        font-size: 1.6rem;
+    }
+
+    .energy-map-container {
+        padding: 6px 0;
+    }
+
+    .energy-days-header {
+        grid-template-columns: 40px repeat(7, minmax(20px, 1fr));
+        gap: 2px;
+        padding: 0 4px;
+    }
+
+    .energy-week {
+        grid-template-columns: 40px repeat(7, minmax(20px, 1fr));
+        gap: 2px;
+        padding: 0 4px;
+    }
+
+    .energy-day-header {
+        font-size: 10px;
+        padding: 4px 1px;
+        min-height: 16px;
+    }
+
+    .energy-week-label {
+        font-size: 10px;
+        padding: 4px 1px;
+        min-height: 16px;
+    }
+
+    .energy-day {
+        min-height: 28px;
+        font-size: 10px;
+    }
+
+    .today-indicator {
+        width: 5px;
+        height: 5px;
+        top: -2px;
+        right: -2px;
+    }
+
+    .global-tooltip,
+    .energy-map-tooltip {
+        max-width: calc(100vw - 30px) !important;
+        min-width: 150px !important;
+        padding: 10px !important;
+        font-size: 12px !important;
+        bottom: 15px !important;
+    }
+
+    .tooltip-header {
+        font-size: 12px !important;
+    }
+
+    .tooltip-emoji {
+        font-size: 18px !important;
+    }
+
+    .today-badge {
+        font-size: 9px;
+        padding: 1px 4px;
+    }
+}
+
+/* ===== СПЕЦИАЛЬНЫЕ СТИЛИ ===== */
+
+/* Высокие экраны */
+@media (min-height: 900px) {
+    .chart-item {
+        min-height: 300px;
+    }
+
+    .chart-container {
+        min-height: 240px;
+    }
+}
+
+/* Широкие экраны */
+@media (min-width: 1440px) {
+    .charts-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .chart-item {
+        min-height: 320px;
+    }
+
+    .chart-container {
+        min-height: 260px;
+    }
+
+    .filter-select {
+        font-size: 14px;
+        min-width: 120px;
+        max-width: 150px;
+    }
+}
+
+/* ===== ОБЩИЕ СТИЛИ ДЛЯ ECHARTS ===== */
+.echarts * {
+    font-family: var(--font-family) !important;
+}
+
+.echarts-axis-label {
+    font-family: var(--font-family) !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+}
+
+.echarts-legend-text {
+    font-family: var(--font-family) !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+}
+
+.echarts-tooltip {
+    font-family: var(--font-family) !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+}
+
+/* ===== ЦЕНТРИРОВАНИЕ ДЛЯ МОБИЛЬНЫХ ===== */
+@media (max-width: 768px) {
+    .stats-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1rem !important;
+        justify-items: center !important;
+    }
+
+    .charts-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 1rem !important;
+    }
+
+    .energy-map-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .energy-days-header,
+    .energy-week {
+        justify-content: center;
+        min-width: min-content;
+    }
+}
+
+/* ===== ПРЕДОТВРАЩЕНИЕ СКРОЛЛА ПРИ ОТКРЫТОМ ТУЛТИПЕ ===== */
+body.tooltip-open {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+/* УБИРАЕМ ВСЕ ДУБЛИРУЮЩИЕСЯ И УСТАРЕВШИЕ СТИЛИ ТУЛТИПОВ */
+
+/* ОСТАВЛЯЕМ ТОЛЬКО ОСНОВНЫЕ СТИЛИ ТУЛТИПОВ */
+.energy-map-tooltip {
+    position: fixed !important;
+    background: white !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    z-index: 10000 !important;
+    font-size: 13px !important;
+    font-family: var(--font-family) !important;
+    font-weight: 600 !important;
+    pointer-events: none !important;
+    max-width: 220px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    opacity: 0;
+    display: none;
+    box-sizing: border-box;
+    transition: opacity 0.1s ease !important;
+}
+
+.energy-map-tooltip.show {
+    opacity: 1;
+    display: block !important;
+}
+
+/* Мобильная версия тултипов */
+@media (max-width: 768px) {
+    .energy-map-tooltip {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        max-width: calc(100vw - 40px) !important;
+        min-width: 280px !important;
+        z-index: 100000 !important;
+        pointer-events: auto !important;
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+    }
+}
+/* Исправления для тултипов Energy Map */
+.energy-map-tooltip {
+    position: fixed !important;
+    background: white !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    z-index: 10000 !important;
+    font-size: 13px !important;
+    font-family: var(--font-family) !important;
+    font-weight: 600 !important;
+    pointer-events: none !important;
+    max-width: 220px !important;
+    min-width: 220px !important; /* Фиксированная минимальная ширина */
+    white-space: normal !important;
+    word-wrap: break-word;
+    opacity: 0;
+    display: none;
+    box-sizing: border-box;
+    transition: opacity 0.1s ease !important;
+}
+
+.energy-map-tooltip.show {
+    opacity: 1;
+    display: block !important;
+}
+
+/* Позиционирование для десктопа */
+.energy-map-tooltip.right-position {
+    transform: none !important;
+    margin: 0 !important;
+}
+
+.energy-map-tooltip.left-position {
+    transform: none !important;
+    margin: 0 !important;
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+    .energy-map-tooltip {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        max-width: calc(100vw - 40px) !important;
+        min-width: 280px !important;
+        z-index: 100000 !important;
+        pointer-events: auto !important;
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+    }
+
+    /* Backdrop для мобильных тултипов */
+    .energy-map-tooltip::before {
+        content: '';
+        position: fixed;
+        top: -20px;
+        left: -20px;
+        right: -20px;
+        bottom: -20px;
+        z-index: -1;
+        pointer-events: auto;
+    }
+}
+
+/* Глобальные стили для закрытия тултипов */
+.global-tooltip-close-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    background: transparent;
+    display: none;
+}
+
+.global-tooltip-close-area.active {
+    display: block;
+}
+/* ===== ИСПРАВЛЕНИЯ ДЛЯ ТУЛТИПОВ ENERGY MAP ===== */
+
+/* Правильное позиционирование для десктопа */
+.energy-map-tooltip {
+    position: fixed !important;
+    background: white !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    z-index: 10000 !important;
+    font-size: 13px !important;
+    font-family: var(--font-family) !important;
+    font-weight: 600 !important;
+    pointer-events: none !important;
+    max-width: 220px !important;
+    min-width: 220px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    opacity: 0;
+    display: none;
+    box-sizing: border-box;
+    transition: opacity 0.2s ease !important;
+}
+
+.energy-map-tooltip.show {
+    opacity: 1;
+    display: block !important;
+}
+
+/* Мобильная версия тултипов */
+@media (max-width: 768px) {
+    .energy-map-tooltip {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        max-width: calc(100vw - 40px) !important;
+        min-width: 280px !important;
+        z-index: 100000 !important;
+        pointer-events: auto !important;
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+    }
+
+    /* Скрытие тултипов при скролле для всех графиков */
+    .global-tooltip.mobile-tooltip {
+        transition: opacity 0.2s ease !important;
+    }
+}
+
+/* Предотвращение скролла при открытом тултипе на мобильных */
+body.tooltip-open {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+/* Контент тултипа Energy Map */
+.energy-map-tooltip-content {
+    text-align: center;
+}
+
+.tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.tooltip-date {
+    flex: 1;
+    text-align: left;
+}
+
+.today-badge {
+    background: #e53e3e;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 8px;
+}
+
+.tooltip-emoji {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.tooltip-info {
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.activity-label {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.energy-level {
+    font-size: 12px;
+    color: #666;
+}
+
+.tooltip-scale {
+    margin-top: 8px;
+}
+
+.scale-bar {
+    height: 6px;
+    background: #f6f8fa;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid #e1e4e8;
+    margin-bottom: 4px;
+}
+
+.scale-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(to right, #ebf8ff, #2c5282);
+}
+
+.scale-labels {
+    font-size: 11px;
+    color: #666;
+    font-weight: 700;
+}
+/* ДОБАВЬ В КОНЕЦ charts.css */
+
+/* ФИНАЛЬНЫЕ ИСПРАВЛЕНИЯ ДЛЯ ТУЛТИПОВ */
+.energy-map-tooltip {
+    position: fixed !important;
+    background: white !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    z-index: 10000 !important;
+    font-size: 13px !important;
+    font-family: var(--font-family) !important;
+    font-weight: 600 !important;
+    pointer-events: none !important;
+    max-width: 220px !important;
+    min-width: 220px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    opacity: 0; /* Начинаем невидимым */
+    display: block !important; /* Всегда block */
+    box-sizing: border-box;
+    transition: opacity 0.2s ease !important;
+    /* УБИРАЕМ ВСЕ ТРАНСФОРМАЦИИ */
+    transform: none !important;
+    margin: 0 !important;
+    /* Убираем любые автоматические смещения */
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+}
+
+.energy-map-tooltip.show {
+    opacity: 1;
+}
+
+/* Десктопная версия */
+@media (min-width: 769px) {
+    .energy-map-tooltip {
+        transform: none !important;
+        margin: 0 !important;
+    }
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+    .energy-map-tooltip {
+        bottom: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) translateY(0) !important;
+        max-width: calc(100vw - 40px) !important;
+        min-width: 280px !important;
+        pointer-events: auto !important;
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+    }
+
+    /* Предотвращаем скролл при открытом тултипе */
+    body.tooltip-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* Backdrop для мобильных */
+.global-tooltip-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.global-tooltip-backdrop.active {
+    opacity: 1;
+    pointer-events: all;
+}
+/* ДОБАВЬ В КОНЕЦ charts.css */
+
+/* БАЗОВЫЕ СТИЛИ ТУЛТИПА - СРАЗУ ПРАВИЛЬНЫЕ ДЛЯ МОБИЛЬНЫХ */
+.energy-map-tooltip {
+    position: fixed !important;
+    background: white !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    z-index: 10000 !important;
+    font-size: 13px !important;
+    font-family: var(--font-family) !important;
+    font-weight: 600 !important;
+    pointer-events: auto !important;
+    max-width: calc(100vw - 40px) !important;
+    min-width: 280px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    opacity: 0;
+    display: block !important;
+    box-sizing: border-box;
+    /* ДЕФОЛТНЫЕ СТИЛИ ДЛЯ МОБИЛЬНЫХ */
+    left: 50% !important;
+    bottom: 20px !important;
+    transform: translateX(-50%) translateY(20px) !important;
+    transition: opacity 0.3s ease, transform 0.3s ease !important;
+}
+
+.energy-map-tooltip.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) !important;
+}
+
+/* ДЕСКТОПНАЯ ВЕРСИЯ - ПЕРЕОПРЕДЕЛЯЕМ СТИЛИ */
+@media (min-width: 769px) {
+    .energy-map-tooltip {
+        /* СБРАСЫВАЕМ МОБИЛЬНЫЕ СТИЛИ */
+        left: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        max-width: 220px !important;
+        min-width: 220px !important;
+        pointer-events: none !important;
+        transition: opacity 0.2s ease !important;
+        /* ДЕСКТОПНЫЕ СТИЛИ */
+        opacity: 0;
+        display: block !important;
+    }
+
+    .energy-map-tooltip.show {
+        opacity: 1;
+        transform: none !important;
+    }
+}
+
+/* ПРЕДОТВРАЩЕНИЕ СКРОЛЛА */
+body.tooltip-open {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: var(--saved-scroll-top, 0);
+}
+
+/* BACKDROP */
+.global-tooltip-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.global-tooltip-backdrop.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* КНОПКА ЗАКРЫТИЯ ДЛЯ МОБИЛЬНЫХ */
+.mobile-tooltip-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+}
+/* ФИНАЛЬНЫЕ ИСПРАВЛЕНИЯ ДЛЯ ТУЛТИПОВ */
+
+/* Базовые стили тултипа с правильными мобильными настройками */
+.energy-map-tooltip {
+    position: fixed !important;
+    background: white !important;
+    border: 1px solid #e1e4e8 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    z-index: 10000 !important;
+    font-size: 13px !important;
+    font-family: var(--font-family) !important;
+    font-weight: 600 !important;
+    pointer-events: auto !important;
+    max-width: calc(100vw - 40px) !important;
+    min-width: 280px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    opacity: 0;
+    display: block !important;
+    box-sizing: border-box;
+    /* Мобильные стили по умолчанию */
+    left: 50% !important;
+    bottom: 20px !important;
+    transform: translateX(-50%) translateY(20px) !important;
+    transition: opacity 0.3s ease, transform 0.3s ease !important;
+}
+
+.energy-map-tooltip.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) !important;
+}
+
+/* Десктопная версия */
+@media (min-width: 769px) {
+    .energy-map-tooltip {
+        /* Сбрасываем мобильные стили */
+        left: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        max-width: 220px !important;
+        min-width: 220px !important;
+        pointer-events: none !important;
+        transition: opacity 0.2s ease !important;
+        opacity: 0;
+    }
+
+    .energy-map-tooltip.show {
+        opacity: 1;
+        transform: none !important;
+    }
+}
+
+/* Блокировка скролла для мобильных */
+body.tooltip-open {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+/* Backdrop для мобильных */
+.global-tooltip-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.global-tooltip-backdrop.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Кнопка закрытия для мобильных */
+.mobile-tooltip-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+}
+
+/* Контент тултипа Energy Map */
+.energy-map-tooltip-content {
+    text-align: center;
+}
+
+.tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.tooltip-date {
+    flex: 1;
+    text-align: left;
+}
+
+.today-badge {
+    background: #e53e3e;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 8px;
+}
+
+.tooltip-emoji {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.tooltip-info {
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.activity-label {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.energy-level {
+    font-size: 12px;
+    color: #666;
+}
+
+.tooltip-scale {
+    margin-top: 8px;
+}
+
+.scale-bar {
+    height: 6px;
+    background: #f6f8fa;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid #e1e4e8;
+    margin-bottom: 4px;
+}
+
+.scale-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(to right, #ebf8ff, #2c5282);
+}
+
+.scale-labels {
+    font-size: 11px;
+    color: #666;
+    font-weight: 700;
+}
+.energy-map-tooltip {
+    position: fixed;
+    background: white;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10000;
+    font-size: 13px;
+    font-family: var(--font-family);
+    font-weight: 600;
+    white-space: normal;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    opacity: 0;
+    display: block;
+    left: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    transform: none;
+    margin: 0;
+}
+
+/* Мобильная версия */
+.energy-map-tooltip.mobile-tooltip {
+    left: 50% !important;
+    bottom: 20px !important;
+    transform: translateX(-50%) translateY(20px) !important;
+    max-width: calc(100vw - 40px);
+    min-width: 280px;
+    pointer-events: auto;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.energy-map-tooltip.mobile-tooltip.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) !important;
+}
+
+/* Десктопная версия */
+.energy-map-tooltip:not(.mobile-tooltip) {
+    max-width: 220px;
+    min-width: 220px;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.energy-map-tooltip:not(.mobile-tooltip).show {
+    opacity: 1;
+}
+
+/* Блокировка скролла для мобильных */
+body.tooltip-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+/* Backdrop для мобильных */
+.global-tooltip-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.global-tooltip-backdrop.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Кнопка закрытия для мобильных */
+.mobile-tooltip-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+}
+
+/* Контент тултипа Energy Map */
+.energy-map-tooltip-content {
+    text-align: center;
+}
+
+.tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.tooltip-date {
+    flex: 1;
+    text-align: left;
+}
+
+.today-badge {
+    background: #e53e3e;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 8px;
+}
+
+.tooltip-emoji {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.tooltip-info {
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.activity-label {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.energy-level {
+    font-size: 12px;
+    color: #666;
+}
+
+.tooltip-scale {
+    margin-top: 8px;
+}
+
+.scale-bar {
+    height: 6px;
+    background: #f6f8fa;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid #e1e4e8;
+    margin-bottom: 4px;
+}
+
+.scale-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(to right, #ebf8ff, #2c5282);
+}
+
+.scale-labels {
+    font-size: 11px;
+    color: #666;
+    font-weight: 700;
+}
+
+/* Делаем тултип частью hover-области */
+.simple-tooltip.energy-map-tooltip {
+    pointer-events: none !important; /* Для десктопа - события проходят сквозь тултип */
+}
+
+/* Создаем невидимую область вокруг тултипа для плавного перехода */
+.tooltip-hover-area {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    pointer-events: none;
+}
+
+/* Для десктопа включаем pointer-events на контенте */
+@media (min-width: 769px) {
+    .simple-tooltip.energy-map-tooltip .energy-map-tooltip-content {
+        pointer-events: auto;
+    }
+}
+.simple-tooltip {
+    position: fixed;
+    background: white;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10000;
+    font-size: 13px;
+    font-family: var(--font-family);
+    font-weight: 600;
+    white-space: normal;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: none;
+    max-width: 220px;
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+    .simple-tooltip {
+        left: 50% !important;
+        bottom: 20px !important;
+        transform: translateX(-50%) !important;
+        max-width: calc(100vw - 40px) !important;
+        min-width: 280px !important;
+        pointer-events: auto !important;
+    }
+}
+
+/* Контент тултипа */
+.energy-map-tooltip-content {
+    text-align: center;
+    pointer-events: auto;
+}
+
+.tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.tooltip-date {
+    flex: 1;
+    text-align: left;
+}
+
+.today-badge {
+    background: #e53e3e;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 8px;
+}
+
+.tooltip-emoji {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.tooltip-info {
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.activity-label {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.energy-level {
+    font-size: 12px;
+    color: #666;
+}
+
+.tooltip-scale {
+    margin-top: 8px;
+}
+
+.scale-bar {
+    height: 6px;
+    background: #f6f8fa;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid #e1e4e8;
+    margin-bottom: 4px;
+}
+
+.scale-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(to right, #ebf8ff, #2c5282);
+}
+
+.scale-labels {
+    font-size: 11px;
+    color: #666;
+    font-weight: 700;
+}
+
+/* Кнопка закрытия для мобильных */
+.mobile-tooltip-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+}

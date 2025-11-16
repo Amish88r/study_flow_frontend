@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow - Аналитика</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/charts.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Оверлей для закрытия меню -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Мобильный заголовок -->
+        <div class="mobile-header">
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <h1 class="logo" style="margin: 0; font-size: 1.5rem;">StudyFlow</h1>
+            <div style="width: 40px;"></div>
+        </div>
+
+        <!-- Боковая панель навигации -->
+        <nav class="sidebar" id="sidebar">
+            <h1 class="logo">StudyFlow</h1>
+            <ul>
+                <li><a href="../index.html">Главная</a></li>
+                <li><a href="../Targets.html">Цели</a></li>
+                <li><a href="#" class="active">Аналитика</a></li>
+                <li><a href="../Calendar.html">Календарь</a></li>
+                <li><a href="../Achievments.html">Достижения</a></li>
+                <li><a href="../Profile.html">Профиль</a></li>
+            </ul>
+
+            <div class="theme-switcher">
+                <h4>Сменить тему</h4>
+                <div class="theme-buttons">
+                    <div class="theme-btn purple" onclick="changeTheme('default')"></div>
+                    <div class="theme-btn blue" onclick="changeTheme('blue')"></div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Блок статистики -->
+            <div class="stats-card">
+                <div class="stats-header">
+                    <h2>Общая статистика</h2>
+                    <div class="stats-filters">
+                        <select class="filter-select" id="statsPeriodSelect" onchange="updateStats(this.value, document.getElementById('statsTaskTypeSelect').value)">
+                            <option value="week">Неделя</option>
+                            <option value="month">Месяц</option>
+                            <option value="quarter">Квартал</option>
+                        </select>
+                        <select class="filter-select" id="statsTaskTypeSelect">
+    <option value="all">Все задачи</option>
+    <option value="study">Учеба</option>
+    <option value="work">Работа</option>
+    <option value="personal">Личные</option>
+</select>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalTasks">195</div>
+                        <div class="stat-label">Всего задач</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="avgEnergy">3.8</div>
+                        <div class="stat-label">Средняя энергия</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="productivity">88%</div>
+                        <div class="stat-label">Продуктивность</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="bestDay">Нед 4</div>
+                        <div class="stat-label">Лучший день</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Аналитика продуктивности</h2>
+
+                <div class="charts-grid">
+                    <!-- BarChart -->
+                    <div class="chart-item">
+                        <div class="chart-header">
+                            <h3>Задачи vs Энергия</h3>
+                            <div class="chart-filters">
+                                <select class="filter-select" onchange="updateBarChart(this.value)">
+                                    <option value="week">Неделя</option>
+                                    <option value="month">Месяц</option>
+                                    <option value="quarter">Квартал</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="barChart">
+                            <div class="chart-loading">Загрузка графика...</div>
+                        </div>
+                    </div>
+
+                    <!-- EnergyMap -->
+                    <div class="chart-item">
+                        <div class="chart-header">
+                            <h3>Энергетическая карта</h3>
+                            <div class="chart-filters">
+                                <select class="filter-select" onchange="updateEnergyMap(this.value)">
+                                    <option value="january">Январь</option>
+                                    <option value="february">Февраль</option>
+                                    <option value="march">Март</option>
+                                    <option value="april">Апрель</option>
+                                    <option value="may">Май</option>
+                                    <option value="june">Июнь</option>
+                                    <option value="july">Июль</option>
+                                    <option value="august">Август</option>
+                                    <option value="september">Сентябрь</option>
+                                    <option value="october">Октябрь</option>
+                                    <option value="november">Ноябрь</option>
+                                    <option value="december">Декабрь</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="energyMap">
+                            <div class="chart-loading">Загрузка энергетической карты...</div>
+                        </div>
+                    </div>
+
+                    <!-- LineChart -->
+                    <div class="chart-item">
+                        <div class="chart-header">
+                            <h3>Тренд продуктивности</h3>
+                            <div class="chart-filters">
+                                <select class="filter-select" onchange="updateLineChart(this.value)">
+                                    <option value="week">Неделя</option>
+                                    <option value="month">Месяц</option>
+                                    <option value="quarter">Квартал</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="lineChart">
+                            <div class="chart-loading">Загрузка графика...</div>
+                        </div>
+                    </div>
+
+                    <!-- PieChart -->
+                    <div class="chart-item">
+                        <div class="chart-header">
+                            <h3>Распределение задач</h3>
+                            <div class="chart-filters">
+                                <select class="filter-select" onchange="updatePieChart(this.value)">
+                                    <option value="all">Все задачи</option>
+                                    <option value="study">Учеба</option>
+                                    <option value="work">Работа</option>
+                                    <option value="personal">Личные</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="pieChart">
+                            <div class="chart-loading">Загрузка графика...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Подключаем JavaScript файлы -->
+    <script src="js/utils/data.js"></script>
+    <script src="js/utils/theme.js"></script>
+    <script src="js/charts/barChart.js"></script>
+    <script src="js/charts/lineChart.js"></script>
+    <script src="js/charts/pieChart.js"></script>
+    <script src="js/charts/energyMap.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
