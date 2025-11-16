@@ -20,6 +20,9 @@
             --text-light: #ffffff;
             --text-dark: #333333;
             --font-family: 'Nunito', sans-serif;
+            --current-day-bg: #7484d2;
+            --other-month-color: #b0b0b0;
+            --goal-indicator: #e53e3e;
         }
 
         body {
@@ -35,6 +38,8 @@
             --nav-item-bg: #4682B4;
             --nav-item-active-bg: #3b5974;
             --progress-bar-fill: #228B22; 
+            --current-day-bg: #4169E1;
+            --goal-indicator: #f59e0b;
         }
 
         body[data-theme="orange"] {
@@ -44,7 +49,9 @@
             --nav-item-bg: #C94A46;         
             --nav-item-active-bg: #A93E3A;  
             --progress-bar-fill: #4285F4;   
-            --text-dark: #ffffff;          
+            --text-dark: #ffffff;
+            --current-day-bg: #E49B0F;
+            --goal-indicator: #1e40af;
         }
         
         .theme-btn.orange { background-color: #E49B0F; }
@@ -265,6 +272,36 @@
             grid-row: 3 / 4;
         }
 
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .calendar-header button {
+            background-color: var(--nav-item-bg);
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .calendar-header button:hover {
+            background-color: #6a7ac5;
+        }
+
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -279,10 +316,49 @@
         }
 
         .calendar-day {
+            position: relative;
             background-color: rgba(255, 255, 255, 0.5);
             border-radius: 8px;
             aspect-ratio: 1 / 1;
             min-height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .calendar-day.empty {
+            background-color: transparent;
+            cursor: default;
+        }
+
+        .calendar-day.other-month {
+            color: var(--other-month-color);
+            background-color: transparent;
+        }
+
+        .calendar-day.current-day {
+            background-color: var(--current-day-bg);
+            color: var(--text-light);
+        }
+
+        .calendar-day.has-goal::after {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background-color: var(--goal-indicator);
+            border-radius: 50%;
+        }
+
+        .calendar-day:hover:not(.empty):not(.other-month) {
+            background-color: #e2e8f0;
         }
 
         .theme-switcher {
@@ -311,6 +387,96 @@
         
         .theme-btn.purple { background-color: #7484d2; }
         .theme-btn.blue { background-color: #4169E1; }
+        
+        /* Стили для модального окна */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .modal-body textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.8rem;
+            font-family: var(--font-family);
+            font-size: 1rem;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            box-sizing: border-box;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .modal-buttons button {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-save {
+            background-color: var(--sidebar-bg);
+            color: var(--text-light);
+        }
+
+        .btn-delete {
+            background-color: #ef4444;
+            color: var(--text-light);
+        }
+
+        .modal-buttons button:hover {
+            opacity: 0.8;
+        }
         
         /* === АДАПТИВНОСТЬ === */
         @media (max-width: 1024px) {
@@ -370,6 +536,16 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+            
+            .calendar-header h3 {
+                font-size: 1rem;
+            }
+            
+            .calendar-header button {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -389,7 +565,7 @@
             <ul>
                 <li><a href="#" class="active">Главная</a></li>
                 <li><a href="Targets.html">Цели</a></li>
-                <li><a href="Analitics/Analitics.html">Аналитика</a></li>
+                <li><a href="Analitics.html">Аналитика</a></li>
                 <li><a href="Calendar.html">Календарь</a></li>
                 <li><a href="Achievments.html">Достижения</a></li>
                 <li><a href="Profile.html">Профиль</a></li>
@@ -478,32 +654,175 @@
 
             <!-- Карточка "Календарь" -->
             <div class="card calendar-card">
-                 <h2>Календарь</h2>
+                 <div class="calendar-header">
+                    <button id="prev-month">&larr;</button>
+                    <h3 id="month-year"></h3>
+                    <button id="next-month">&rarr;</button>
+                </div>
                  <div class="calendar-grid">
-                    <div class="day-header">ПН</div>
-                    <div class="day-header">ВТ</div>
-                    <div class="day-header">СР</div>
-                    <div class="day-header">ЧТ</div>
-                    <div class="day-header">ПТ</div>
-                    <div class="day-header">СБ</div>
-                    <div class="day-header">ВС</div>
-                    
-                    <!-- Дни календаря -->
-                    <script>
-                        const calendarGrid = document.querySelector('.calendar-card .calendar-grid');
-                        for (let i = 0; i < 35; i++) {
-                            const day = document.createElement('div');
-                            day.className = 'calendar-day';
-                            calendarGrid.appendChild(day);
-                        }
-                    </script>
+                    <!-- Заголовки дней недели и дни будут добавлены через JavaScript -->
                  </div>
             </div>
         </main>
     </div>
 
+    <!-- Модальное окно для добавления/редактирования целей -->
+    <div class="modal-overlay" id="goal-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Цель на дату</h3>
+                <button class="close-btn" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea id="goal-textarea" placeholder="Опишите вашу цель на этот день..."></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-delete" id="delete-goal-btn">Удалить</button>
+                <button class="btn-save" id="save-goal-btn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
 <script>
-    // Находим все кнопки для смены темы
+    // === ЛОГИКА КАЛЕНДАРЯ И ЦЕЛЕЙ ===
+    const monthYearElement = document.getElementById('month-year');
+    const calendarGrid = document.querySelector('.calendar-card .calendar-grid');
+    const prevMonthButton = document.getElementById('prev-month');
+    const nextMonthButton = document.getElementById('next-month');
+    
+    // Элементы модального окна
+    const modal = document.getElementById('goal-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const closeModalButton = document.getElementById('close-modal');
+    const goalTextarea = document.getElementById('goal-textarea');
+    const saveGoalButton = document.getElementById('save-goal-btn');
+    const deleteGoalButton = document.getElementById('delete-goal-btn');
+
+    let currentDate = new Date();
+    let selectedDayKey = null; // Ключ для хранения даты в формате 'ГГГГ-М-Д'
+    
+    // Загружаем цели из localStorage или создаем пустой объект
+    let goals = JSON.parse(localStorage.getItem('calendarGoals')) || {};
+
+    const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+
+    function renderCalendar() {
+        calendarGrid.innerHTML = '';
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        monthYearElement.textContent = `${monthNames[month]} ${year}`;
+
+        // Добавляем заголовки дней недели
+        const weekdays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
+        weekdays.forEach(day => {
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'day-header';
+            dayHeader.textContent = day;
+            calendarGrid.appendChild(dayHeader);
+        });
+
+        // Расчеты для построения сетки дней
+        const firstDayOfMonth = new Date(year, month, 1);
+        const lastDayOfMonth = new Date(year, month + 1, 0);
+        
+        const firstDayOfWeek = (firstDayOfMonth.getDay() + 6) % 7; // 0=ПН, 1=ВТ, ..., 6=ВС
+        const lastDateOfMonth = lastDayOfMonth.getDate();
+        
+        // Добавляем пустые ячейки для дней предыдущего месяца
+        for (let i = 0; i < firstDayOfWeek; i++) {
+            calendarGrid.appendChild(document.createElement('div')).className = 'calendar-day empty';
+        }
+
+        // Добавляем ячейки для дней текущего месяца
+        for (let day = 1; day <= lastDateOfMonth; day++) {
+            const dayCell = document.createElement('div');
+            dayCell.className = 'calendar-day';
+            dayCell.textContent = day;
+            
+            const dayKey = `${year}-${month + 1}-${day}`;
+            dayCell.dataset.key = dayKey; // Добавляем data-атрибут с ключом даты
+
+            if (goals[dayKey]) {
+                dayCell.classList.add('has-goal'); // Добавляем класс, если есть цель
+            }
+
+            // Выделяем сегодняшний день
+            const today = new Date();
+            if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                dayCell.classList.add('current-day');
+            }
+            
+            calendarGrid.appendChild(dayCell);
+        }
+    }
+
+    // --- Функции для модального окна ---
+    function openModal(dateKey) {
+        selectedDayKey = dateKey;
+        const [year, month, day] = dateKey.split('-');
+        modalTitle.textContent = `Цель на ${day}.${month}.${year}`; 
+        goalTextarea.value = goals[selectedDayKey] || ''; // Показываем существующую цель или пустоту
+        
+        // Показываем кнопку "Удалить" только если цель уже есть
+        deleteGoalButton.style.display = goals[selectedDayKey] ? 'block' : 'none';
+        
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+    }
+
+    function saveGoal() {
+        if (selectedDayKey) {
+            const goalText = goalTextarea.value.trim();
+            if (goalText) {
+                goals[selectedDayKey] = goalText;
+            } else {
+                delete goals[selectedDayKey]; // Если текст пустой, удаляем цель
+            }
+            localStorage.setItem('calendarGoals', JSON.stringify(goals)); // Сохраняем в localStorage
+            closeModal();
+            renderCalendar(); // Перерисовываем календарь для отображения/удаления индикатора
+        }
+    }
+
+    function deleteGoal() {
+        if (selectedDayKey) {
+            delete goals[selectedDayKey];
+            localStorage.setItem('calendarGoals', JSON.stringify(goals));
+            closeModal();
+            renderCalendar();
+        }
+    }
+    
+    // --- Обработчики событий ---
+    prevMonthButton.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar();
+    });
+
+    nextMonthButton.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar();
+    });
+    
+    // Открытие модального окна по клику на ячейку
+    calendarGrid.addEventListener('click', (event) => {
+        const cell = event.target.closest('.calendar-day');
+        if (cell && !cell.classList.contains('empty')) {
+            openModal(cell.dataset.key);
+        }
+    });
+
+    closeModalButton.addEventListener('click', closeModal);
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) closeModal(); // Закрытие по клику на фон
+    });
+    saveGoalButton.addEventListener('click', saveGoal);
+    deleteGoalButton.addEventListener('click', deleteGoal);
+
+    // === ОБЩИЙ СКРИПТ (Темы и мобильное меню) ===
     const themeButtons = document.querySelectorAll('[data-set-theme]');
     const storageKey = 'studyflow-theme';
 
@@ -548,6 +867,9 @@
                 }
             });
         }
+
+        // Первая отрисовка календаря
+        renderCalendar();
     });
 </script>
 </body>
