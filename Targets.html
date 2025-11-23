@@ -7,7 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
     <style>
         :root {
             --bg-light: #f3f4f8;
@@ -100,7 +103,199 @@
 
         .mobile-header { display: none; background-color: var(--sidebar-bg); padding: 1rem; color: var(--text-light); justify-content: space-between; align-items: center; }
         .mobile-menu-btn { background: none; border: none; color: var(--text-light); font-size: 1.5rem; cursor: pointer; }
+        .goaldialog{margin-top:auto; background:white; width: 80%; max-width: 600px; margin-bottom: auto; border: 2px; cursor: pointer; border-radius:15px;}
+        
+        dialog::backdrop{background-color:rgba(0,0,0,0.5)}
 
+        .goaldialog header {
+            font-family: var(--font-family);
+            background:linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+        }
+        .goaldialog .content {
+            padding: 20px;
+        }
+
+        .dialogclosebutton{
+            position:absolute;
+            padding: 5x;
+            top: 15px;
+            right:15px;
+            font-size:15px;
+            width:30px;
+            height:30px;
+            display:flex;
+            border-radius:50%;
+            align-items:center;
+            justify-content:center;
+            background: none;
+            border:none;
+            transition: all 0.3s ease;
+        }
+        .dialogclosebutton:hover{
+            background: rgba(0,0,0,0.1);
+            transform:scale(1.1);
+        }
+
+        .stepped-slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .slider-labels span {
+            text-align: center;
+            width: 40px;
+        }
+        
+        .slider-with-steps {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            outline: none;
+            margin: 5px 0;
+        }
+        
+        .current-value {
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 2px 0;
+        }
+
+
+        .picker-group {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+        }
+        
+        input {
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #667eea;
+            border-radius: 6px;
+            width: 250px;
+            font-size: 16px;
+        }
+
+
+                .subtask-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        
+        .subtask-input {
+            flex: 1;
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .remove-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .add-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        .subtask-section {margin: 25px 0; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea;
+        }
+
+
+        .btn-primary { background: #667eea; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .btn {
+            padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer;
+            font-size: 16px; transition: all 0.3s;
+        }
+        /* .subtask {
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .subtask input, .subtask textarea, .subtask select {
+            width: 100%;
+            margin: 5px 0;
+            padding: 8px;
+        } */
+
+            .subtask {
+        padding: 20px;
+        margin: 15px 0;
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        border-radius: 20px;
+        border: 2px solid #90caf9;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+    }
+
+    .subtask input, .subtask textarea, .subtask select {
+        width: 100%;
+        margin: 8px 0;
+        padding: 12px;
+        border: 2px solid #90caf9;
+        border-radius: 15px;
+        background: white;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    .subtask input:focus, .subtask textarea:focus, .subtask select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+    }
+
+    .delete-btn {
+        background: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 15px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .delete-btn:hover {
+        background: #ff5252;
+        transform: translateY(-2px);
+    }
+
+        
         /* === АДАПТИВНОСТЬ === */
         @media (max-width: 992px) {
             .top-section {
@@ -116,12 +311,22 @@
             .main-content { padding: 1rem; gap: 1rem; }
             .card { padding: 1rem; }
             .form-buttons { flex-direction: column; }
+            .subtask-section {
+            margin: 25px 0; padding: 20px; background: #f8f9fa;
+            border-radius: 10px; border-left: 4px solid #667eea;
+        }
+
         }
     </style>
 </head>
+
+
+
 <body>
 
     <div class="dashboard-container">
+
+
         <header class="mobile-header">
             <button class="mobile-menu-btn">☰</button>
             <h1 class="logo" style="margin: 0; font-size: 1.5rem;">StudyFlow</h1>
@@ -133,7 +338,7 @@
             <ul>
                  <li><a href="index.html" >Главная</a></li>
                 <li><a href="#"class="active">Цели</a></li>
-                <li><a href="Analitics/Analitics.html">Аналитика</a></li>
+                <li><a href="Analitics.html">Аналитика</a></li>
                 <li><a href="Calendar.html">Календарь</a></li>
                 <li><a href="Achievments.html">Достижения</a></li>
                 <li><a href="Profile.html">Профиль</a></li>
@@ -150,19 +355,17 @@
 
         <main class="main-content">
             <div class="top-section">
+
                 <div class="card new-goal-card">
                     <h2>Новая цель</h2>
-                    <div class="form-group">
-                        <input type="text" placeholder="Название">
-                    </div>
-                    <div class="form-group">
-                        <textarea placeholder="Описание"></textarea>
-                    </div>
                     <div class="form-buttons">
                         <button class="btn-secondary">Дедлайн</button>
-                        <button class="btn-primary">Создать</button>
+                        <button class="btn-primary" onclick = showgoalDialog()>Создать</button>
+
                     </div>
                 </div>
+
+
 
                 <div class="card tips-card">
                     <h2>Советы</h2>
@@ -226,13 +429,301 @@
                 </div>
             </div>
         </main>
+
+
     </div>
+
+
+
+
+
+
+
+    <div class = "goaldialog">
+
+            <dialog id = "new-goal-modal" method = "goaldialog" class = "goaldialog">
+                <header>
+            <h2>🎯 Твоя новая цель</h2>
+        </header>
+                <form method = "dialog">
+
+                <div class="card new-goal-card">
+
+                    <h2>📍Описание</h2>
+
+                    <div class="form-group">
+                        <input type="text" placeholder="Название">
+                    </div>
+
+                    <div class="form-group">
+                        <textarea placeholder="Описание"></textarea>
+                    <h2>🧩Сложность задачи</h2>
+
+                    <div class="stepped-slider">
+                        <label>Выбери уровень:</label>
+                        <input type="range" id="stepSlider" class = "slider-with-steps" min="0" max="10" value="10" step = "1">
+                        <div class = "slider-labels">
+                            <span>Очень просто</span><span>Средне</span><span>Очень сложно</span>
+                        </div>
+                        <div class="current-value" id="stepValue"></div>
+                    </div>
+                    </div>
+                    <h2>⚠️Важность задачи</h2>
+
+                    <div class="stepped-slider">
+                        <label>Выбери уровень:</label>
+                        <input type="range" id="stepSlider2" class = "slider-with-steps" min="0" max="10" value="10" step = "1">
+                        <div class = "slider-labels">
+                            <span>Не важная</span><span>Средняя</span><span>Очень важная</span>
+                        </div>
+                        <div class="current-value" id="stepValue2"></div>
+                    </div>
+
+                
+
+                    <h2>📅 Выбери дедлайн</h2>
+                    <div class = "picker-group">
+                    <input type="datetime-local" id="dateTime" placeholder="Дата и время">
+                    </div>
+                    <button class = "dialogclosebutton"> <i class="fa-solid fa-xmark"></i> </button> 
+                    <button class = "dialogclosebutton"> <i class="fa-solid fa-xmark"></i> </button> 
+
+
+
+
+                    <!-- Секция подзадач -->
+            <div class="subtask-section">
+                <h3>➕ Подзадачи</h3>
+                <button type="button" class="btn btn-success" onclick="addSubtask()">
+                    ➕ Добавить подзадачу
+                </button>
+
+
+                
+                <div id="subtasksContainer">
+                    <!-- Подзадачи будут добавляться сюда -->
+                                     
+
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">Отмена</button>
+                <button type="button" class="btn btn-primary" onclick="saveTask()">Сохранить задачу</button>
+            </div>
+        </div>
+            
+                </div>
+            </form>
+
+ 
+        </dialog>
+    </div>
+
+
+
+
+
+
+
 <script>
+
+// Добавьте этот код ПЕРЕД функцией addSubtask
+const difficultylabels = [
+    "0", "1", "2", "3", "4", "5",
+    "6", "7", "8", "9", "10"
+];
+
+// Обработчик для всех слайдеров (работает для динамически добавленных)
+document.addEventListener('input', function(e) {
+    if (e.target.id && e.target.id.startsWith('stepSlidersubtask-')) {
+        const slider = e.target;
+        const valueId = slider.id.replace('stepSlidersubtask-', 'stepValuesubtask-');
+        const valueElement = document.getElementById(valueId);
+        
+        if (valueElement) {
+            valueElement.textContent = difficultylabels[slider.value];
+        }
+    }
+});
+
+// Инициализация существующих слайдеров при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    const existingSliders = document.querySelectorAll('[id^="stepSlidersubtask-"]');
+    existingSliders.forEach(slider => {
+        const valueId = slider.id.replace('stepSlidersubtask-', 'stepValuesubtask-');
+        const valueElement = document.getElementById(valueId);
+        if (valueElement) {
+            valueElement.textContent = difficultylabels[slider.value];
+        }
+    });
+});
+    
     const themeButtons = document.querySelectorAll('[data-set-theme]');
     const storageKey = 'studyflow-theme';
+    const goaldialog = document.querySelector('#new-goal-modal');
+
     const applyTheme = (theme) => {
         document.body.setAttribute('data-theme', theme === 'default' ? '' : theme);
     };
+
+
+    function showgoalDialog(){
+        goaldialog.showModal()
+    }
+
+        flatpickr("#dateTime", {
+        static:true,
+        enableTime: true,
+        dateFormat: "d.m.Y H:i",
+        time_24hr: true,
+        locale: "ru"
+    });
+
+
+
+    const stepSlider = document.getElementById('stepSlider');
+    const stepValue = document.getElementById('stepValue');
+
+    const stepSlider2 = document.getElementById('stepSlider2');
+    const stepValue2 = document.getElementById('stepValue2');
+
+    const stepSlider3 = document.getElementById('stepSlider3');
+    const stepValue3 = document.getElementById('stepValue3');
+    
+
+    
+
+    
+
+        const difficultyLabels = {
+            1: '1',
+            2: "2",
+            3:"3",
+            4:"4",
+            5:'5',
+            6:"6",
+            7:"7",
+            8:"8",
+            9:"9",
+            10:"10"
+        };
+        
+        stepSlider.addEventListener('input', function() {
+            stepValue.textContent = difficultyLabels[this.value];
+        });
+
+        stepSlider2.addEventListener('input', function() {
+            stepValue2.textContent = difficultyLabels[this.value];
+        });
+
+        stepSlider3.addEventListener('input', function() {
+            stepValue3.textContent = difficultyLabels[this.value];
+        });
+
+
+
+
+                // СОЗДАЕМ ЗАДАЧУ
+        const task = {
+            id: Date.now(), title: mainTitle,
+            description: document.getElementById('mainTaskDescription').value.trim(),
+            subtasks, createdAt: new Date().toLocaleString('ru-RU'), completed: false
+        };
+
+        // СОХРАНЯЕМ
+        tasks.push(task);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        renderTasks();
+        closeTaskModal();
+        alert('✅ Задача успешно сохранена!');
+    
+
+    // СБРОС ФОРМЫ
+    function resetForm() {
+        document.getElementById('mainTaskTitle').value = '';
+        document.getElementById('mainTaskDescription').value = '';
+        document.getElementById('subtasksContainer').innerHTML = '';
+        subtaskCounter = 0;
+    }
+
+
+        function initializeDatePickers() {
+        document.querySelectorAll('.subtask-deadline').forEach(input => {
+            if (!input._flatpickr) {
+                flatpickr(input, {
+                    dateFormat: "d.m.Y", locale: "ru", minDate: "today"
+                });
+            }
+        });
+    }
+
+        function addSubtaskField() {
+        const container = document.getElementById('subtasksContainer');
+        container.innerHTML += createSubtaskField();
+        initializeDatePickers();}
+
+
+
+        function addSubtask() {
+    const container = document.getElementById('subtasksContainer');
+    const subtaskId = 'subtask-' + Date.now();
+    // const newSlider = document.getElementById(`stepSlidersubtask-${subtaskId}`);
+    // const newValue = document.getElementById(`stepValuesubtask-${subtaskId}`);
+    
+    container.innerHTML += `
+
+        <div class="subtask" id="${subtaskId}">
+            <input type="text" placeholder="📝 Название подзадачи">
+            <textarea placeholder="📋 Описание"></textarea>
+                <h2>⚠️Важность задачи</h2>
+                    <div class="stepped-slider">
+                        <label>Выбери уровень:</label>
+                        <input type="range" id="stepSlidersubtask-${subtaskId}" class="slider-with-steps" min="0" max="10" value="0">
+                        <div class = "slider-labels">
+                            <span>Не важная</span><span>Средняя</span><span>Очень важная</span>
+                        </div>
+                        <div class="current-value" id="stepValuesubtask-${subtaskId}"></div>
+                    </div>
+            <button onclick="document.getElementById('${subtaskId}').remove()" class="delete-btn">🗑️ Удалить</button>
+        </div>
+    `;
+        }
+
+
+
+        //     stepSlidersubtask.addEventListener('input', function() {
+        //     stepValuesubtask.textContent = difficultyLabels[this.value];
+        // });
+
+        //  const stepSlidersubtask = document.getElementById('stepSlidersubtask');
+        // const stepValuesubtask = document.getElementById('stepValuesubtask');
+        // }
+
+
+
+
+        function saveTask() {
+        const mainTitle = document.getElementById('mainTaskTitle').value.trim();
+        
+        if (!mainTitle) {
+            alert('Пожалуйста, введите название основной задачи');
+            return;
+        }}
+        function renderTasks() {
+        const container = document.getElementById('tasksContainer');
+        
+        if (tasks.length === 0) {
+            container.innerHTML = '<p>Пока нет созданных задач</p>';
+            return;
+        }}
+
+        
+
+
+
+
+
     themeButtons.forEach(button => {
         button.addEventListener('click', () => {
             const theme = button.dataset.setTheme;
@@ -240,6 +731,9 @@
             localStorage.setItem(storageKey, theme);
         });
     });
+
+
+
     document.addEventListener('DOMContentLoaded', () => {
         const savedTheme = localStorage.getItem(storageKey);
         if (savedTheme) applyTheme(savedTheme);
